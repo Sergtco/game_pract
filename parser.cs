@@ -1,5 +1,4 @@
 using Microsoft.Data.Analysis;
-using System.Collections.Generic;
 
 namespace game_pract
 {
@@ -19,6 +18,7 @@ namespace game_pract
         {
             var rows = this.df.Rows;
             List<string> result = new List<string>();
+
             Console.WriteLine(df.Head(0));
             foreach (var row in rows) {
                 var elm = row.AsEnumerable().ToList();

@@ -5,6 +5,7 @@ namespace game_pract
 {
     public class Program
     {
+        // Dictionary with commands and their discriptions
         static Dictionary<string, string> commands = new Dictionary<string, string>
         {
             ["help"] = "get help",
@@ -15,6 +16,7 @@ namespace game_pract
         {
             String fn = "./vgsales.csv";
             Parser parser = new Parser(fn);
+            // Passing args
             if (args.Length != 0)
             {
                 try
@@ -24,6 +26,8 @@ namespace game_pract
                 catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
+                    Console.WriteLine("Available commands:");
+                    list_commands();
                 }
             }
             else
@@ -34,7 +38,7 @@ namespace game_pract
         }
         public static void run_command(string[] args, Parser parser)
         {
-
+            // Run commands
             switch (args[0])
             {
                 case "GetAll":
@@ -42,6 +46,9 @@ namespace game_pract
                     break;
                 case "AvgPlatSales":
                     parser.AvgPlatSales();
+                    break;
+                case "help":
+                    list_commands();
                     break;
                 default:
                     throw new Exception("Invalid command");
