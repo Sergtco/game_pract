@@ -111,5 +111,14 @@ namespace game_pract
             }
             else { Console.WriteLine("\n\tTry again\n"); goto ShowGenres; }
         }
+        public void ShowThisGenreGames(string Genre)
+        {
+            if (GenresList.Contains(Genre))
+            {
+                for (int i = 0; i < 16598; i++)
+                    if (df[i, 4].ToString() == Genre) Console.WriteLine(df[i, 1].ToString());
+            }
+            else { Console.WriteLine("\n\tTry again\n"); }
+        }
     }
 }
