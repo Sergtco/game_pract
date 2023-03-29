@@ -17,22 +17,43 @@ namespace game_pract
 
         public List<string> GetAllRows()
         {
-            var rowsLen = this.df.Rows.Count;
-            List<string> rows = new List<string>();
-            for (int i = 0; i < rowsLen; i++)
-            {
-                rows.Add(this.df.Rows[i].ToString());
+            var rows = this.df.Rows;
+            List<string> result = new List<string>();
+            Console.WriteLine(df.Head(0));
+            foreach (var row in rows) {
+                var elm = row.AsEnumerable().ToList();
+                string name = (string) elm[1];
+                if (name.Length > 50) {
+                    name = name.Substring(0, 50);
+                    name += "...";
+                }
+                elm[1] = (object) name;
+
+                Console.WriteLine(String.Format("{1, -60}{2, -5}{3, -5}{4, -20}{5, -30}{6, -6}{7, -6: }{8, -6: 0.0}{9, -6: 0.0}{10, -6: 0.0}", elm.ToArray()));
+                result.Add(row.ToString());
             }
-            return rows;
+            return result;
         }
-        public void /*Dictionary<String, int>*/ AvgPlatSales()
+        public Dictionary<string,double> AvgPlatSales()
         {
-            var platforms = this.df.Columns["Platform", "Rank"].ValueCounts();
-            Dictionary<String, int> sales = new Dictionary<String, int>();
+            var platforms = this.df.Columns["Platform"].ValueCounts();
+            Dictionary<String, double> sales = new Dictionary<String, double>();
+
+            Console.WriteLine(String.Format("{0, -20} {1} in millions", "Platform", "Average Sales"));
+
             foreach (string platform in platforms.Columns[0])
             {
-                sales[platform] = 
+                var filtered =  df.Filter(df.Columns["Platform"].ElementwiseEquals(platform))["Global_Sales"];
+                double sum = 0;
+                foreach (string n in filtered) {
+                    sum += double.Parse(n, System.Globalization.CultureInfo.InvariantCulture);
+                }
+                double num = filtered.Length;
+                sales.Add(platform, sum / num);
+                Console.WriteLine(String.Format("{0, -20} {1: 0.##} M", platform, sales[platform]));
             }
+            return sales;
+
         }
     }
 }
