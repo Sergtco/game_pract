@@ -7,7 +7,22 @@ namespace game_pract
         string filename;
         DataFrame df;
         
-
+        public List<string> GenresList = new List<string>
+        {
+        "Sports",
+        "Platform",
+        "Racing",
+        "Role-Playing",
+        "Puzzle",
+        "Misc",
+        "Shooter",
+        "Simulation",
+        "Action",
+        "Fighting",
+        "Adventure",
+        "Strategy"
+        };
+        
         public Parser(string filename)
         {
             this.filename = filename;
@@ -54,6 +69,47 @@ namespace game_pract
             }
             return sales;
 
+        }
+        public void TopTenGames()
+        {
+            df.OrderByDescending("Global_Sales");// I hope that'll work
+
+            //Checking if the column is already sortied
+            /*
+            for (int i = 0; i < df.Columns.Count;i++) 
+            {
+                if (Convert.ToDouble(df[i, 10]) < Convert.ToDouble(df[i + 1, 10])) { Console.WriteLine("Bloody Hell"); break; }
+            }
+            */
+            //Output
+            Console.WriteLine("\nThere's a ten best selling games around the world:\n");
+            String s = String.Format("{0,-18} {1,52}\n\n", "Game", "Global Sales in millions");
+            for (int i = 0; i < 10;i++)
+            {
+                s += String.Format("{0,-25} {1,36}\n",
+                      df[i,1], df[i,10] + " M");
+            }
+            Console.WriteLine($"\n{s}");
+        }
+        
+        public void ShowThisGenreGames()
+        {
+            ShowGenres:
+            int GenresCount = 1;
+            foreach(string GenreName in GenresList)
+            {
+                Console.WriteLine($"{GenresCount++}: {GenreName}");
+            }
+
+            Console.WriteLine("\nChoose the Genre from the list\n");
+            string Genre = Console.ReadLine();
+            Console.WriteLine("\n\n");
+            if (GenresList.Contains(Genre))
+            {
+                for (int i = 0; i < 16598; i++) 
+                    if (df[i, 4].ToString() == Genre) Console.WriteLine(df[i, 1].ToString());
+            }
+            else { Console.WriteLine("\n\tTry again\n"); goto ShowGenres; }
         }
     }
 }
