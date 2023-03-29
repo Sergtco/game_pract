@@ -10,7 +10,9 @@ namespace game_pract
         {
             ["help"] = "get help",
             ["GetAll"] = "get all lines",
-            ["AvgPlatSales"] = "average sales by platform"
+            ["AvgPlatSales"] = "average sales by platform",
+            ["TopTen"] = "show top ten games",
+            ["ByGenre"] = "show games by typed genre",
         };
         public static void Main(string[] args)
         {
@@ -46,6 +48,12 @@ namespace game_pract
                     break;
                 case "AvgPlatSales":
                     parser.AvgPlatSales();
+                    break;
+                case "TopTen":
+                    parser.TopTenGames();
+                    break;
+                case "ByGenre":
+                    parser.ShowThisGenreGames();
                     break;
                 case "help":
                     list_commands();

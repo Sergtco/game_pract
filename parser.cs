@@ -101,11 +101,12 @@ namespace game_pract
                 Console.WriteLine($"{GenresCount++}: {GenreName}");
             }
 
-            Console.WriteLine("\nChoose the Genre from the list\n");
-            string Genre = Console.ReadLine();
+            Console.WriteLine("\nChoose the Genre from the list and enter the number of it\n");
+            Int32 input = Int32.Parse(Console.ReadLine()!);
             Console.WriteLine("\n\n");
-            if (GenresList.Contains(Genre))
+            if (input > 0 && input <= GenresList.Count && GenresList.Contains(GenresList[input]))
             {
+                string Genre = GenresList[input-1];
                 for (int i = 0; i < 16598; i++) 
                     if (df[i, 4].ToString() == Genre) Console.WriteLine(df[i, 1].ToString());
             }
