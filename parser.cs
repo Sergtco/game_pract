@@ -6,6 +6,7 @@ namespace game_pract
     {
         string filename;
         DataFrame df;
+        int LENGTH = 16598;
         
         public List<string> GenresList = new List<string>
         {
@@ -22,11 +23,22 @@ namespace game_pract
         "Adventure",
         "Strategy"
         };
-        
+
         public Parser(string filename)
         {
             this.filename = filename;
             this.df = DataFrame.LoadCsv(filename);
+        }
+
+        private List<string> PublisherList()
+        {
+            var pubs = this.df.Columns["Publisher"].ValueCounts();
+            List<string> PublisherList = new List<string>();
+            foreach(string pub in pubs.Columns[0])
+            {
+                PublisherList.Add(pub.ToString());
+            }
+            return PublisherList;
         }
 
         public List<string> GetAllRows()
@@ -107,7 +119,7 @@ namespace game_pract
             if (input > 0 && input <= GenresList.Count && GenresList.Contains(GenresList[input]))
             {
                 string Genre = GenresList[input-1];
-                for (int i = 0; i < 16598; i++) 
+                for (int i = 0; i < LENGTH; i++) 
                     if (df[i, 4].ToString() == Genre) Console.WriteLine(df[i, 1].ToString());
             }
             else { Console.WriteLine("\n\tTry again\n"); goto ShowGenres; }
@@ -116,10 +128,58 @@ namespace game_pract
         {
             if (GenresList.Contains(Genre))
             {
-                for (int i = 0; i < 16598; i++)
+                for (int i = 0; i < LENGTH; i++)
                     if (df[i, 4].ToString() == Genre) Console.WriteLine(df[i, 1].ToString());
             }
             else { Console.WriteLine("\n\tTry again\n"); }
         }
+
+
+        public void GetCertainGames()
+        {
+            Console.WriteLine("\nChoose the Genre from the list and enter the number of it\n");
+            string Publisher = Console.ReadLine()!;
+            Console.WriteLine("\n");
+            if (PublisherList().Contains(Publisher))
+            {
+                for (int i = 0; i < LENGTH; i++)
+                {
+                    if (this.df[i, 5].ToString() == Publisher) Console.WriteLine(this.df[i, 1].ToString());
+                }
+            }
+            else {Console.WriteLine("\nTry again\n");}
+        }
+
+        public void GetCertainGames(string Publisher)
+        {
+            if (PublisherList().Contains(Publisher))
+            {
+                for (int i = 0; i < LENGTH; i++)
+                {
+                    if (this.df[i, 5].ToString() == Publisher) Console.WriteLine(this.df[i, 1].ToString());
+                }
+            }
+            else { Console.WriteLine("\nTry again\n"); }
+        }
+
+        public void GamesRatio()
+        {
+            Console.WriteLine(String.Format("{0, -40} {1, -20} {2}", "Genre", "Count", "Percent"));
+
+            foreach(string genre in GenresList)
+            {
+                int sum = 0;
+                for(int i = 0; i < LENGTH; i++)
+                {
+                    if(df[i, 4].ToString() == genre.ToString())
+                    {
+                        sum += 1;
+                    }
+                }
+                float per = (float)sum / (float)LENGTH * 100;
+                Console.WriteLine(String.Format("{0, -40} {1, -20} {2: #.##}%", genre, sum, per));
+            }
+        }
+
     }
 }
