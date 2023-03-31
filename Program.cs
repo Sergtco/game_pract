@@ -13,6 +13,8 @@ namespace game_pract
             ["AvgPlatSales"] = "average sales by platform",
             ["TopTen"] = "show top ten games",
             ["ByGenre"] = "show games by typed genre",
+            ["ByPublisher"] = "show games by certain publisher",
+            ["GamesRatio"] = "show distribution of games by genre"
         };
         public static void Main(string[] args)
         {
@@ -54,6 +56,12 @@ namespace game_pract
                     break;
                 case "ByGenre":
                     parser.ShowThisGenreGames();
+                    break;
+                case "ByPublisher":
+                    parser.GetCertainGames();
+                    break;
+                case "GamesRatio":
+                    parser.GamesRatio();
                     break;
                 case "help":
                     list_commands();
