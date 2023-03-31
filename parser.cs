@@ -137,7 +137,7 @@ namespace game_pract
 
         public void GetCertainGames()
         {
-            Console.WriteLine("\nChoose the Genre from the list and enter the number of it\n");
+            Console.WriteLine("\nEnter publisher name\n");
             string Publisher = Console.ReadLine()!;
             Console.WriteLine("\n");
             if (PublisherList().Contains(Publisher))
