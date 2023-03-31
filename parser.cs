@@ -28,6 +28,11 @@ namespace game_pract
             this.filename = filename;
             this.df = DataFrame.LoadCsv(filename);
         }
+        private void print(DataFrame input)
+        {
+            int colCount = input.Columns.Count;
+
+        }
 
         public List<string> GetAllRows()
         {
