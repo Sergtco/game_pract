@@ -7,6 +7,9 @@ namespace game_pract
         string filename;
         DataFrame df;
         int LENGTH = 16598;
+        double[,] sales_by_genre = new double[12,5];
+        int[] Zero_genres = {0,0,0,0,0,0,0,0,0,0,0,0};
+        string publisher;
         
         public List<string> GenresList = new List<string>
         {
@@ -184,6 +187,60 @@ namespace game_pract
                 float per = (float)sum / (float)LENGTH * 100;
                 Console.WriteLine(String.Format("{0, -40} {1, -20} {2: #.##}%", genre, sum, per));
             }
+        }
+        public void GenresByPublisher(){
+            publisher_getnchoose();
+            genrecount();
+            statistic();
+        }
+        public void SalesByRegion(){
+            salescount();
+            output();
+        }
+        void salescount(){
+            for(int i = 0; i < 16598;i++){
+                for(int j = 0; j < 5;j++){
+                    sales_by_genre[GenresList.IndexOf(df[i,4].ToString()),j] += Convert.ToDouble(df[i,j+6].ToString().Replace('.',','));
+                }
+            }
+        }
+        void output(){
+            for(int i = 0; i < 12;i++){
+                Console.WriteLine(string.Format("{0,-20}",GenresList[i])+$"NA: {qc(i,0), -8}   EU: {qc(i,1), -8}   JP: {qc(i,2), -8}   Other: {qc(i,3), -8}");
+            }
+        }
+        double qc(int i , int a){
+            return Math.Round((sales_by_genre[i,a]/sales_by_genre[i,4]*100),3);
+        }
+        void genrecount(){
+            for(int i = 0;i<16598;i++){
+                if(df[i,5] == null) continue;
+                else if(df[i,5].ToString() == publisher){
+                    Zero_genres[GenresList.IndexOf(df[i,4].ToString())]++;
+                }
+            }
+        }
+
+        void statistic(){
+            for(int i = 0; i < 12; i++){
+                Console.WriteLine(String.Format("{0,-26} {1:0.##,30}%",GenresList[i],Convert.ToDouble(Zero_genres[i])/Convert.ToDouble(Zero_genres.Sum())*100));
+            }
+        }
+        void publisher_getnchoose(){
+            List<string> o = new List<string>();
+
+            for(int i = 0;i <16597;i++){
+                if(df[i,5] == null ) continue;
+                else if(o.Contains(df[i,5].ToString())) continue;
+                else o.Add(df[i,5].ToString());
+            } 
+
+            foreach(string elem in o){
+                Console.WriteLine(elem);
+            }
+
+            Console.WriteLine("Выберите Издателя из выше перечисленных.");
+            this.publisher = Console.ReadLine();
         }
 
     }
