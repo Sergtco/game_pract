@@ -14,7 +14,9 @@ namespace game_pract
             ["TopTen"] = "show top ten games",
             ["ByGenre"] = "show games by typed genre",
             ["ByPublisher"] = "show games by certain publisher",
-            ["GamesRatio"] = "show distribution of games by genre"
+            ["GamesRatio"] = "show distribution of games by genre",
+            ["GenresByPublisher"] = "show percentage of all games of different genres of the specified publisher",
+            ["SalesByRegion"] = "show percentage of sales of games of each genre in different regions of the total number of sales"
         };
         public static void Main(string[] args)
         {
@@ -39,6 +41,7 @@ namespace game_pract
                 list_commands();
 
             }
+
         }
         public static void run_command(string[] args, Parser parser)
         {
@@ -62,6 +65,12 @@ namespace game_pract
                     break;
                 case "GamesRatio":
                     parser.GamesRatio();
+                    break;
+                case "SalesByRegion":
+                    parser.SalesByRegion();
+                    break;
+                case "GenresByPublisher":
+                    parser.GenresByPublisher();
                     break;
                 case "help":
                     list_commands();
