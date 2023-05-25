@@ -17,6 +17,8 @@ namespace game_pract
             ["GamesRatio"] = "show distribution of games by genre",
             ["GenresByPublisher"] = "show percentage of all games of different genres of the specified publisher",
             ["SalesByRegion"] = "show percentage of sales of games of each genre in different regions of the total number of sales"
+            ["SearchByYear"] = "show games in year ratio",
+            ["UniquePlatforms"] = "show unique platforms"
         };
         public static void Main(string[] args)
         {
@@ -71,6 +73,11 @@ namespace game_pract
                     break;
                 case "GenresByPublisher":
                     parser.GenresByPublisher();
+                case "SearchByYear":
+                    parser.SearchYear();
+                    break;
+                case "UniquePlatforms":
+                    parser.UniquePlatform();
                     break;
                 case "help":
                     list_commands();
@@ -82,9 +89,9 @@ namespace game_pract
         }
         public static void list_commands()
         {
-            foreach (var pair in commands) {
+            foreach (var pair in commands)
+            {
                 Console.WriteLine("{0} - {1}", pair.Key, pair.Value);
             }
         }
     }
-}

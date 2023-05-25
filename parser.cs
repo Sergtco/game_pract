@@ -11,6 +11,7 @@ namespace game_pract
         int[] Zero_genres = {0,0,0,0,0,0,0,0,0,0,0,0};
         string publisher;
         
+
         public List<string> GenresList = new List<string>
         {
         "Sports",
@@ -42,7 +43,7 @@ namespace game_pract
         {
             var pubs = this.df.Columns["Publisher"].ValueCounts();
             List<string> PublisherList = new List<string>();
-            foreach(string pub in pubs.Columns[0])
+            foreach (string pub in pubs.Columns[0])
             {
                 PublisherList.Add(pub.ToString());
             }
@@ -55,21 +56,23 @@ namespace game_pract
             List<string> result = new List<string>();
 
             Console.WriteLine(df.Head(0));
-            foreach (var row in rows) {
+            foreach (var row in rows)
+            {
                 var elm = row.AsEnumerable().ToList();
-                string name = (string) elm[1];
-                if (name.Length > 50) {
+                string name = (string)elm[1];
+                if (name.Length > 50)
+                {
                     name = name.Substring(0, 50);
                     name += "...";
                 }
-                elm[1] = (object) name;
+                elm[1] = (object)name;
 
                 Console.WriteLine(String.Format("{1, -60}{2, -5}{3, -5}{4, -20}{5, -30}{6, -6}{7, -6: }{8, -6: 0.0}{9, -6: 0.0}{10, -6: 0.0}", elm.ToArray()));
                 result.Add(row.ToString());
             }
             return result;
         }
-        public Dictionary<string,double> AvgPlatSales()
+        public Dictionary<string, double> AvgPlatSales()
         {
             var platforms = this.df.Columns["Platform"].ValueCounts();
             Dictionary<String, double> sales = new Dictionary<String, double>();
@@ -78,9 +81,10 @@ namespace game_pract
 
             foreach (string platform in platforms.Columns[0])
             {
-                var filtered =  df.Filter(df.Columns["Platform"].ElementwiseEquals(platform))["Global_Sales"];
+                var filtered = df.Filter(df.Columns["Platform"].ElementwiseEquals(platform))["Global_Sales"];
                 double sum = 0;
-                foreach (string n in filtered) {
+                foreach (string n in filtered)
+                {
                     sum += double.Parse(n, System.Globalization.CultureInfo.InvariantCulture);
                 }
                 double num = filtered.Length;
@@ -104,19 +108,19 @@ namespace game_pract
             //Output
             Console.WriteLine("\nThere's a ten best selling games around the world:\n");
             String s = String.Format("{0,-18} {1,52}\n\n", "Game", "Global Sales in millions");
-            for (int i = 0; i < 10;i++)
+            for (int i = 0; i < 10; i++)
             {
                 s += String.Format("{0,-25} {1,36}\n",
-                      df[i,1], df[i,10] + " M");
+                      df[i, 1], df[i, 10] + " M");
             }
             Console.WriteLine($"\n{s}");
         }
-        
+
         public void ShowThisGenreGames()
         {
-            ShowGenres:
+        ShowGenres:
             int GenresCount = 1;
-            foreach(string GenreName in GenresList)
+            foreach (string GenreName in GenresList)
             {
                 Console.WriteLine($"{GenresCount++}: {GenreName}");
             }
@@ -126,8 +130,8 @@ namespace game_pract
             Console.WriteLine("\n\n");
             if (input > 0 && input <= GenresList.Count && GenresList.Contains(GenresList[input]))
             {
-                string Genre = GenresList[input-1];
-                for (int i = 0; i < LENGTH; i++) 
+                string Genre = GenresList[input - 1];
+                for (int i = 0; i < LENGTH; i++)
                     if (df[i, 4].ToString() == Genre) Console.WriteLine(df[i, 1].ToString());
             }
             else { Console.WriteLine("\n\tTry again\n"); goto ShowGenres; }
@@ -155,7 +159,7 @@ namespace game_pract
                     if (this.df[i, 5].ToString() == Publisher) Console.WriteLine(this.df[i, 1].ToString());
                 }
             }
-            else {Console.WriteLine("\nTry again\n");}
+            else { Console.WriteLine("\nTry again\n"); }
         }
 
         public void GetCertainGames(string Publisher)
@@ -174,12 +178,12 @@ namespace game_pract
         {
             Console.WriteLine(String.Format("{0, -40} {1, -20} {2}", "Genre", "Count", "Percent"));
 
-            foreach(string genre in GenresList)
+            foreach (string genre in GenresList)
             {
                 int sum = 0;
-                for(int i = 0; i < LENGTH; i++)
+                for (int i = 0; i < LENGTH; i++)
                 {
-                    if(df[i, 4].ToString() == genre.ToString())
+                    if (df[i, 4].ToString() == genre.ToString())
                     {
                         sum += 1;
                     }
@@ -242,6 +246,36 @@ namespace game_pract
             Console.WriteLine("Выберите Издателя из выше перечисленных.");
             this.publisher = Console.ReadLine();
         }
+        public void SearchYear()
+        {
+            try
+            {
+                Console.WriteLine("Enter start year:");
+                int year1 = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Enter end year:");
+                int year2 = Convert.ToInt32(Console.ReadLine());
+                for (int i = 0; i < LENGTH; i++)
+                {
+                    if ((Convert.ToInt32(this.df[i, 3]) <= year2) && (Convert.ToInt32(this.df[i, 3]) >= year1))
+                    {
 
+                        Console.WriteLine(String.Format("{0, -40} {1, -20} ", df[i, 1], df[i, 3]));
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Unable to parse years.");
+            }
+
+        }
+        public void UniquePlatform()
+        {
+            var platforms = this.df.Columns["Platform"].ValueCounts();
+            foreach (string platform in platforms.Columns[0])
+            {
+                Console.WriteLine(platform);
+            }
+
+        }
     }
-}
