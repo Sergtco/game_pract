@@ -16,7 +16,7 @@ namespace game_pract
             ["ByPublisher"] = "show games by certain publisher",
             ["GamesRatio"] = "show distribution of games by genre",
             ["GenresByPublisher"] = "show percentage of all games of different genres of the specified publisher",
-            ["SalesByRegion"] = "show percentage of sales of games of each genre in different regions of the total number of sales"
+            ["SalesByRegion"] = "show percentage of sales of games of each genre in different regions of the total number of sales",
             ["SearchByYear"] = "show games in year ratio",
             ["UniquePlatforms"] = "show unique platforms"
         };
@@ -73,6 +73,7 @@ namespace game_pract
                     break;
                 case "GenresByPublisher":
                     parser.GenresByPublisher();
+                    break;
                 case "SearchByYear":
                     parser.SearchYear();
                     break;
@@ -95,3 +96,4 @@ namespace game_pract
             }
         }
     }
+}
